@@ -1,0 +1,37 @@
+<launch>
+  <param name="use_sim_time" value="true"/>
+
+  <!-- 仿真初期临时提供 map -> odom。
+       后续如果使用 gmapping / cartographer / amcl，需要删除这个静态 TF。 -->
+  <node pkg="tf"
+        type="static_transform_publisher"
+        name="map_to_odom"
+        args="0 0 0 0 0 0 map odom 100"/>
+
+  <node pkg="move_base"
+        type="move_base"
+        name="move_base"
+        output="screen"
+        respawn="false">
+
+    <param name="base_global_planner" value="navfn/NavfnROS"/>
+    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>
+
+    <rosparam file="$(find server_clean_robot_simulation)/config/costmap_common_params.yaml"
+              command="load"
+              ns="global_costmap"/>
+
+    <rosparam file="$(find server_clean_robot_simulation)/config/costmap_common_params.yaml"
+              command="load"
+              ns="local_costmap"/>
+
+    <rosparam file="$(find server_clean_robot_simulation)/config/global_costmap_params.yaml"
+              command="load"/>
+
+    <rosparam file="$(find server_clean_robot_simulation)/config/local_costmap_params.yaml"
+              command="load"/>
+
+    <rosparam file="$(find server_clean_robot_simulation)/config/dwa_local_planner_params.yaml"
+              command="load"/>
+  </node>
+</launch>

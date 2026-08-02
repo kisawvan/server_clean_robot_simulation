@@ -1,0 +1,8 @@
+prefix=/home/wjhros/server_clean_robot_simulation/build/devel
+
+Name: server_clean_robot_simulation
+Description: Description of server_clean_robot_simulation
+Version: 0.0.1
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: roscpp rospy std_msgs geometry_msgs sensor_msgs nav_msgs tf tf2_ros actionlib move_base_msgs
